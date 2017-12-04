@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE configuration
+        PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-config.dtd">
+
+<!-- mybatis 总的配置文件 -->
+
+<configuration>
+
+    <!-- 加载属性文件  与Spring整合之后，这里就可以删除了-->
+    <!--<properties resource="db.properties">-->
+        <!--&lt;!&ndash;properties中还可以配置一些属性名和属性值  &ndash;&gt;-->
+        <!--&lt;!&ndash; <property name="" value=""/> &ndash;&gt;-->
+    <!--</properties>-->
+
+    <!--mybatis 属性设置，一些延迟加载等功能-->
+    <settings>
+        <!-- 开启延迟加载,一般高级查询时才会用到，级联查询-->
+        <!--设置 lazyLoadingEnabled = true 开启延迟加载功能-->
+        <!--设置 aggressiveLazyLoading = false 将代表着 延迟加载下的 按需加载，即调用时才会进行加载-->
+        <setting name="lazyLoadingEnabled" value="true"/>
+        <setting name="aggressiveLazyLoading" value="false"/>
+    </settings>
+
+    <!-- 别名定义 -->
+    <typeAliases>
+        <!--单独的一个一个的定义别名，如果类比较多，则会比较繁琐，不建议使用 -->
+        <!--<typeAlias type="com.dustin.mybatis.po.Items" alias="Items"/>-->
+
+        <!-- 批量别名定义
+         指定包名，mybatis自动扫描包中的po类，自动定义别名，别名就是类名（首字母大写或小写都可以）
+         建议使用
+        -->
+        <package name="com.dustin.dao.object"/>
+    </typeAliases>
+
+    <!-- 和spring整合后 environments配置将废除-->
+    <!--<environments default="development">-->
+        <!--<environment id="development">-->
+            <!--&lt;!&ndash; 使用jdbc事务管理，mybatis控制事务&ndash;&gt;-->
+            <!--<transactionManager type="JDBC"/>-->
+            <!--&lt;!&ndash; 数据库连接池，由mybatis进行管理&ndash;&gt;-->
+            <!--<dataSource type="POOLED">-->
+                <!--<property name="driver" value="${jdbc.driver}"/>-->
+                <!--<property name="url" value="${jdbc.url}"/>-->
+                <!--<property name="username" value="${jdbc.username}"/>-->
+                <!--<property name="password" value="${jdbc.password}"/>-->
+            <!--</dataSource>-->
+        <!--</environment>-->
+    <!--</environments>-->
+
+
+    <!-- 加载 映射文件 -->
+    <mappers>
+        <!-- 第一种方式加载：每一个xml文件都是对应着单个表的sql语句的集合-->
+
+        <!--<mapper resource="mybatis/sqlMap/OrderdetailMapper.xml"/>-->
+        <!--<mapper resource="mybatis/sqlMap/OrdersMapper.xml"/>-->
+        <!--<mapper resource="mybatis/sqlMap/UserMapper.xml"/>-->
+        <!--<mapper resource="mybatis/sqlMap/ItemsMapper.xml"/>-->
+
+        <!-- 第二种方式 批量加载mapper
+        （因为此demo mapper接口和xml文件不在同一目录下，所以不适用批量加载）
+        批量加载 ：指定mapper接口的包名，mybatis自动扫描包下边所有mapper接口进行加载
+        遵循一些规范：
+        1. 需要将mapper接口类名和mapper.xml映射文件名称保持一致，
+        2. 且在同一个目录中
+        上边规范的前提是：使用的是mapper代理方法
+
+        和spring整合后，使用mapper扫描器，这里不需要配置了
+         -->
+        <!-- <package name="com.dustin.mybatis.mapper"/> -->
+    </mappers>
+
+</configuration>

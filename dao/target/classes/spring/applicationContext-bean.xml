@@ -1,0 +1,52 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+		http://www.springframework.org/schema/beans/spring-beans-3.2.xsd  ">
+
+    <!--<import resource="applicationContext-base.xml"/>-->
+
+    <!-- 原始dao接口 -->
+
+    <bean id="userDao" class="com.dustin.dao.traditional.impl.UserDaoImpl">
+        <property name="sqlSessionFactory" ref="sqlSessionFactory"/>
+    </bean>
+
+    <!-- mapper配置  第一种方式 单个类单个类的设置
+    MapperFactoryBean：根据mapper接口生成 mapper 代理对象
+    -->
+    <!--<bean id="userMapper" class="org.mybatis.spring.mapper.MapperFactoryBean">-->
+        <!--&lt;!&ndash;mapperInterface指定mapper接口&ndash;&gt;-->
+        <!--<property name="mapperInterface" value="com.dustin.dao.mapper.UserMapper"/>-->
+        <!--<property name="sqlSessionFactory" ref="sqlSessionFactory"/>-->
+    <!--</bean>-->
+    <!--<bean id="ordersMapper" class="org.mybatis.spring.mapper.MapperFactoryBean">-->
+        <!--&lt;!&ndash;mapperInterface指定mapper接口&ndash;&gt;-->
+        <!--<property name="mapperInterface" value="com.dustin.dao.mapper.OrdersMapper"/>-->
+        <!--<property name="sqlSessionFactory" ref="sqlSessionFactory"/>-->
+    <!--</bean>-->
+    <!--<bean id="orderdetailMapper" class="org.mybatis.spring.mapper.MapperFactoryBean">-->
+        <!--&lt;!&ndash;mapperInterface指定mapper接口&ndash;&gt;-->
+        <!--<property name="mapperInterface" value="com.dustin.dao.mapper.OrderdetailMapper"/>-->
+        <!--<property name="sqlSessionFactory" ref="sqlSessionFactory"/>-->
+    <!--</bean>-->
+    <!--<bean id="itemsMapper" class="org.mybatis.spring.mapper.MapperFactoryBean">-->
+        <!--&lt;!&ndash;mapperInterface指定mapper接口&ndash;&gt;-->
+        <!--<property name="mapperInterface" value="com.dustin.dao.mapper.ItemsMapper"/>-->
+        <!--<property name="sqlSessionFactory" ref="sqlSessionFactory"/>-->
+    <!--</bean>-->
+
+    <!-- 第二种方式： mapper批量扫描， 此时要将mapper.xml 文件放到mappper接口所在的文件夹下
+    从mapper包中扫描出mapper接口，自动创建代理对象并且在spring容器中注册
+    遵循规范：将mapper.java和mapper.xml映射文件名称保持一致，且在一个目录 中
+    自动扫描出来的mapper的bean的id为mapper类名（首字母小写）
+    -->
+    <bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
+    <!-- 指定扫描的包名
+    如果扫描多个包，每个包中间使用半角逗号分隔
+    -->
+        <property name="basePackage" value="com.dustin.dao.mapper"/>
+        <property name="sqlSessionFactoryBeanName" value="sqlSessionFactory"/>
+
+    </bean>
+
+</beans>
